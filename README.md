@@ -4,4 +4,5 @@
 
 usage...
 
-	var layer = new esri.layer.WURadarLayer('myapikey');
+	var weather = new WURadarLayer('api key');
+    map.addLayer(weather);
