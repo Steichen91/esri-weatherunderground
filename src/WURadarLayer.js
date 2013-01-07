@@ -29,10 +29,10 @@ function (declare, ioQuery, esri) {
                     wkid: 102100
                 })));
                 var params = {
-                    minlat: Math.round(minPoint.y * 10) / 10, // may be issues with url length, round to correct
-                    maxlat: Math.round(maxPoint.y * 10) / 10,
-                    minlon: Math.round(minPoint.x * 10) / 10,
-                    maxlon: Math.round(maxPoint.x * 10) / 10,
+                    minlat: Math.round(minPoint.y * 1000) / 1000, // may be issues with url length, round to correct
+                    maxlat: Math.round(maxPoint.y * 1000) / 1000,
+                    minlon: Math.round(minPoint.x * 1000) / 1000,
+                    maxlon: Math.round(maxPoint.x * 1000) / 1000,
                     newmaps: 0,
                     width: width,
                     height: height,
