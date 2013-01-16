@@ -15,11 +15,20 @@ function (declare, ioQuery, esri) {
             });
             this.loaded = true;
             this.onLoad(this);
+            this.count = 0;
+            this.delay = 3000;
         },
         getImageUrl: function (extent, width, height, callback) {
             var _self = this;
+            var delay;
             if (this.updateTimeout) {
                 clearTimeout(this.updateTimeout);
+            }
+            if(!_self.count){
+                delay = 0;
+            }
+            else{
+                delay = _self.delay;
             }
             this.updateTimeout = setTimeout(function () {
                 var minPoint = esri.geometry.webMercatorToGeographic(new esri.geometry.Point(extent.xmin, extent.ymin, new esri.SpatialReference({
@@ -44,8 +53,9 @@ function (declare, ioQuery, esri) {
                     num: 6,
                     delay: 30
                 };
+                _self.count++;
                 callback('http://api.wunderground.com/api/' + _self.key + '/animatedradar/image.gif?' + ioQuery.objectToQuery(params));
-            }, 3000);
+            }, delay);
         }
     });
     return Widget;

@@ -57,6 +57,19 @@
                 map.reposition();
             }
 
+            function init(){
+                var extent = esri.geometry.Extent({
+                    xmax: -7856121.865955909,
+                    xmin: -8626607.111070449,
+                    ymax: 5442390.7902907785,
+                    ymin: 4729386.19044669,
+                    spatialReference: map.extent.spatialReference
+                });
+                map.setExtent(extent);
+                var weather = new WURadarLayer('a2e05250bcb7ae38');
+                map.addLayer(weather);
+            }
+
             ready(function () {
                 esri.config.defaults.io.proxyUrl = "/arcgisserver/apis/javascript/proxy/proxy.ashx";
                 //This service is for development and testing purposes only. We recommend that you create your own geometry service for use within your applications.
@@ -80,14 +93,15 @@
                 });
                 mapDeferred.addCallback(function (response) {
                     map = response.map;
-
-                    var weather = new WURadarLayer('a2e05250bcb7ae38');
-                    map.addLayer(weather);
-
+                    if(map.loaded){
+                        init();
+                    }
+                    else{
+                        connect.connect(map, "onload", init);
+                    }
                     //resize the map when the browser resizes
                     connect.connect(dijit.byId('map'), 'resize', map, map.resize);
                     connect.connect(window, "onresize", resizeMap);
-
                 });
                 mapDeferred.addErrback(function (error) {
                     console.log("Map creation failed");
